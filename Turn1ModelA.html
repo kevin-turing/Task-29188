@@ -1,1 +1,119 @@
-T1MA
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japan's Population Dynamics</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .chart-container { width: 100%; max-width: 800px; margin: auto; }
+        #agePyramid, #economicIndicators, #ruralUrbanFlow { height: 400px; }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Japan's Population Decline Visualization</h1>
+    
+    <!-- Age Pyramids -->
+    <div id="agePyramid" class="chart-container"></div>
+
+    <!-- Birth, Death, Migration Rates -->
+    <div id="demographicRates" class="chart-container"></div>
+
+    <!-- Economic Indicators -->
+    <div id="economicIndicators" class="chart-container"></div>
+
+    <!-- Rural-Urban Flow -->
+    <div id="ruralUrbanFlow" class="chart-container"></div>
+
+    <!-- Interactive Scenario Exploration -->
+    <div class="mt-4">
+        <button id="defaultScenario" class="btn btn-primary">Default Scenario</button>
+        <button id="immigrationBoost" class="btn btn-secondary">Increased Immigration</button>
+        <button id="higherFertility" class="btn btn-secondary">Higher Fertility Rate</button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctxPyramid = document.getElementById('agePyramid').getContext('2d');
+    const ctxRates = document.getElementById('demographicRates').getContext('2d');
+    const ctxEconomic = document.getElementById('economicIndicators').getContext('2d');
+    const ctxFlow = document.getElementById('ruralUrbanFlow').getContext('2d');
+
+    // Data for charts - This would need to be more accurately populated based on the article's data
+    const pyramidData = {
+        labels: ['0-4', '5-9', '10-14', '...', '80+'],
+        datasets: [{
+            label: 'Male',
+            data: [5, 4.8, 4.5, /*...*/ 0.5],
+            backgroundColor: 'rgba(54, 162, 235, 0.5)'
+        }, {
+            label: 'Female',
+            data: [4.7, 4.5, 4.3, /*...*/ 0.6],
+            backgroundColor: 'rgba(255, 99, 132, 0.5)'
+        }]
+    };
+
+    const ratesData = {
+        labels: ['1990', '2000', '2010', '2020', '2030', '2040', '2050'],
+        datasets: [{
+            label: 'Birth Rate',
+            data: [1.5, 1.3, 1.4, /*...*/ 1.2],
+            borderColor: 'blue',
+            fill: false
+        }, {
+            label: 'Death Rate',
+            data: [0.7, 0.8, 0.9, /*...*/ 1.5],
+            borderColor: 'red',
+            fill: false
+        }]
+    };
+
+    const economicData = {
+        labels: ['1990', '2020', '2050'],
+        datasets: [{
+            label: 'Labor Force Participation',
+            data: [70, 65, 55],
+            borderColor: 'green',
+            fill: false
+        }]
+    };
+
+    const flowData = {
+        datasets: [{
+            label: 'Rural to Urban',
+            data: [{x:'1990', y:10}, {x:'2020', y:30}, {x:'2050', y:50}],
+            borderColor: 'purple',
+            showLine: true,
+            fill: false
+        }]
+    };
+
+    // Chart creation
+    new Chart(ctxPyramid, { type: 'bar', data: pyramidData, options: { indexAxis: 'y', scales: { x: { stacked: true }, y: { stacked: true } } }});
+    new Chart(ctxRates, { type: 'line', data: ratesData });
+    new Chart(ctxEconomic, { type: 'line', data: economicData });
+    new Chart(ctxFlow, { type: 'scatter', data: flowData, options: { scales: { x: { type: 'linear', position: 'bottom' } } }});
+
+    // Interactive elements
+    document.querySelectorAll('button').forEach(button => {
+        button.onclick = function() {
+            // Here you would update chart data based on the scenario
+            // For simplicity, this example just changes a dataset
+            if (this.id === 'immigrationBoost') {
+                pyramidData.datasets[0].data[10] += 0.5; // Example adjustment
+                new Chart(ctxPyramid, { type: 'bar', data: pyramidData, options: { indexAxis: 'y', scales: { x: { stacked: true }, y: { stacked: true } } }});
+            }
+            // Similarly handle other scenarios
+        };
+    });
+});
+</script>
+
+</body>
+</html>
